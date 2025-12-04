@@ -1,0 +1,7 @@
+
+
+
+
+class CandyLocationNotFound implements Exception{
+
+}
