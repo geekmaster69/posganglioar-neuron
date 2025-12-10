@@ -13,6 +13,7 @@ Future<void> showCandyLocationDetails(
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
+    backgroundColor: Color(0xFF2C272E),
     useSafeArea: true,
     showDragHandle: true,
     builder: (context) {
@@ -20,7 +21,6 @@ Future<void> showCandyLocationDetails(
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
-        
           children: [
             const SizedBox(width: double.maxFinite),
 
@@ -38,11 +38,11 @@ Future<void> showCandyLocationDetails(
 
             Text('Promocines del lugar', style: textStyle.titleLarge),
 
-            if(locationCandy.promotions.isEmpty)
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('Sin promociones'),
-            ),
+            if (locationCandy.promotions.isEmpty)
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Sin promociones'),
+              ),
 
             ...locationCandy.promotions.map(
               (e) => Padding(
@@ -51,11 +51,12 @@ Future<void> showCandyLocationDetails(
               ),
             ),
 
-            Text('Dulces restantes', style: textStyle.headlineSmall,),
+            Text('Dulces restantes', style: textStyle.headlineSmall),
             CandyRemaining(remaining: locationCandy.quantity),
 
             _VisitedButton(locationCandy.id, onTap: toggleVisited),
-            const SizedBox(height: 40,)
+            const Spacer(),
+            const SizedBox(height: 20),
           ],
         ),
       );
@@ -74,15 +75,18 @@ class _VisitedButton extends ConsumerWidget {
     return isVisitedState$.when(
       data: (data) => SizedBox(
         width: double.maxFinite,
-        child: FilledButton.icon(
+        height: 52,
+        child: ElevatedButton(
           onPressed: data
               ? null
               : () {
                   onTap();
                   ref.invalidate(isVisitedLocationProvider(candyId));
                 },
-          label: const Text('Visitado!!!'),
-          icon: Icon(data ? Icons.check_circle_outline : Icons.circle_outlined),
+          child: Text(
+            data ? 'Visitado' : 'Marcar como visitado',
+            style: const TextStyle(fontSize: 22),
+          ),
         ),
       ),
       error: (error, stackTrace) => Text(error.toString()),
