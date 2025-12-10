@@ -9,6 +9,7 @@ class AppTheme {
   ThemeData getTheme() => ThemeData(
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     brightness: Brightness.dark,
+    splashColor: const Color(0xFFE59934),
     colorSchemeSeed: seedColor,
     textTheme: GoogleFonts.emilysCandyTextTheme(ThemeData.dark().textTheme),
   );
