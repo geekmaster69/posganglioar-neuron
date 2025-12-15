@@ -16,11 +16,19 @@ class CandyMapView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locationsState = ref.watch(locationProvider(location));
     final locationNotifier = ref.read(locationProvider(location).notifier);
-   
+
     return Stack(
       children: [
         GoogleMap(
           style: mapStyle,
+
+          onCameraMove: (position) {
+            final location = position.target;
+            locationNotifier.onPositionChange((
+              location.latitude,
+              location.longitude,
+            ));
+          },
 
           markers: Set.from(
             locationsState.markers.map(
@@ -44,8 +52,10 @@ class CandyMapView extends ConsumerWidget {
               ),
             ),
           ),
-         
+
           myLocationEnabled: true,
+          zoomControlsEnabled: false,
+
           initialCameraPosition: CameraPosition(
             target: LatLng(location.$1, location.$2),
             zoom: 16,
@@ -57,6 +67,22 @@ class CandyMapView extends ConsumerWidget {
           child: IconButton.filledTonal(
             onPressed: locationNotifier.getLocations,
             icon: const Icon(Icons.replay_outlined),
+          ),
+        ),
+        Visibility(
+          visible: locationsState.showSearchButton,
+          child: Positioned(
+            child: Padding(
+              padding: const EdgeInsetsGeometry.only(top: 20),
+              child: Align(
+                alignment: .topCenter,
+                child: FilledButton.icon(
+                  onPressed: locationNotifier.getLocations,
+                  label: const Text('Buscar en esta area'),
+                  icon: const Icon(Icons.search),
+                ),
+              ),
+            ),
           ),
         ),
         Visibility(

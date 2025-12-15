@@ -19,7 +19,7 @@ class PlacesView extends ConsumerWidget {
 
     String getDistance(double latitude, double longitude) {
       return GeolocatorPlugin()
-          .distanceBetween(location.$1, location.$2, latitude, longitude)
+          .distanceBetween(locationsState.position.$1, locationsState.position.$2, latitude, longitude)
           .toStringAsFixed(2);
     }
 

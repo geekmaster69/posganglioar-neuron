@@ -21,7 +21,11 @@ class CandyLocationNotifier extends Notifier<CandyLocationsState> {
     dbRepository = ref.watch(candyLocationsDbProvider);
 
     Future.microtask(() => getLocations());
-    return CandyLocationsState();
+    return CandyLocationsState(position: position);
+  }
+
+  void onPositionChange((double, double) position) {
+    state = state.copyWith(position: position, showSearchButton: true);
   }
 
   Future<void> getLocations() async {
@@ -29,8 +33,8 @@ class CandyLocationNotifier extends Notifier<CandyLocationsState> {
 
     try {
       final locations = await repository.nervyCandyLocations(
-        position.$1,
-        position.$2,
+        state.position.$1,
+        state.position.$2,
       );
       final visitedLocations = await dbRepository.getVisitedLocations();
       final markers = await Future.wait(
@@ -41,6 +45,7 @@ class CandyLocationNotifier extends Notifier<CandyLocationsState> {
       state = state.copyWith(
         candyLocations: locations,
         isLoading: false,
+        showSearchButton: false,
         markers: markers,
         visitedId: visitedLocations,
       );
@@ -89,10 +94,12 @@ class CandyLocationNotifier extends Notifier<CandyLocationsState> {
     );
 
     return Marker(
-      rotation:  isVisited ? 0: 180,
+      anchor: const Offset(0, -.2),
+
+      rotation: isVisited ? 0 : 180,
       markerId: MarkerId(mapLocation.id.toString()),
       icon: icon,
-    
+
       position: LatLng(mapLocation.latitude, mapLocation.longitude),
     );
   }
@@ -106,6 +113,8 @@ class CandyLocationNotifier extends Notifier<CandyLocationsState> {
 class CandyLocationsState {
   final bool isLoading;
   final String message;
+  final bool showSearchButton;
+  final (double, double) position;
   final List<MapCandyLocation> candyLocations;
   final List<Marker> markers;
   final List<int> visitedId;
@@ -113,21 +122,27 @@ class CandyLocationsState {
   CandyLocationsState({
     this.isLoading = true,
     this.message = '',
+    this.showSearchButton = false,
     this.candyLocations = const [],
+    required this.position,
     this.markers = const [],
     this.visitedId = const [],
   });
 
   CandyLocationsState copyWith({
     bool? isLoading,
+    bool? showSearchButton,
     String? message,
+    (double, double)? position,
     List<MapCandyLocation>? candyLocations,
     List<Marker>? markers,
     List<int>? visitedId,
   }) {
     return CandyLocationsState(
       isLoading: isLoading ?? this.isLoading,
+      showSearchButton: showSearchButton ?? this.showSearchButton,
       message: message ?? this.message,
+      position: position ?? this.position,
       candyLocations: candyLocations ?? this.candyLocations,
       markers: markers ?? this.markers,
       visitedId: visitedId ?? this.visitedId,
