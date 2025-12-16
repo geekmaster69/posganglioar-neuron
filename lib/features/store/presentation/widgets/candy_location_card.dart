@@ -5,13 +5,15 @@ import 'package:candy_tracker/features/store/domain/domain.dart';
 class LocationCard extends StatelessWidget {
   final CandyLocation location;
   final VoidCallback onTap;
-  const LocationCard({super.key, required this.location, required this.onTap});
+  final VoidCallback onLongPress;
+  const LocationCard({super.key, required this.location, required this.onTap, required this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme;
     final double border = 12;
     return GestureDetector(
+      onLongPress:onLongPress ,
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(

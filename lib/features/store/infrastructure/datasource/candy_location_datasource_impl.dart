@@ -82,9 +82,9 @@ class CandyLocationDatasourceImpl implements CandyLocationDatasource {
         'file': MultipartFile.fromFileSync(path, filename: fileName),
       });
 
-      final respose = await dio.post('/files/upload', data: data);
+      final response = await dio.post('/files/upload', data: data);
 
-      return respose.data['url'];
+      return response.data['url'];
     } on DioException catch (e) {
       throw Exception(e.response?.data['message'] ?? e.message);
     } catch (e) {
@@ -105,5 +105,19 @@ class CandyLocationDatasourceImpl implements CandyLocationDatasource {
     final newImages = (await Future.wait(imagesJob)).map((e) => {'url': e});
 
     return [...imagesToIgnore, ...newImages];
+  }
+
+  @override
+  Future<String> deleteCandyLocationById(int id) async {
+    try {
+      final response = await dio.delete('/locations/$id');
+
+      print('RESPUESTA DEL BORRADO ${response.data}');
+      return 'Borrado';
+    } on DioException catch (e) {
+      throw Exception(e.response?.data['message'] ?? e.message);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

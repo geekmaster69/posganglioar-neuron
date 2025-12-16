@@ -13,15 +13,15 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
-    final userLocationState = ref.watch(candysLocationsProvider);
+    final userLocationState = ref.watch(candiesLocationsProvider);
+    final candyLocationsNotifier = ref.watch(candiesLocationsProvider.notifier);
     final size = MediaQuery.of(context).size.height;
 
     if (userLocationState.isLoading) {
       return const FullScreenLoader();
     }
 
-    ref.listen(candysLocationsProvider, (previous, next) {
+    ref.listen(candiesLocationsProvider, (previous, next) {
       if (next.message.isNotEmpty) {
         showSnackBar(context, next.message);
       }
@@ -33,14 +33,12 @@ class DashboardScreen extends ConsumerWidget {
         actions: [
           TextButton.icon(
             label: const Text('Salir'),
-            onPressed: ()  async{
-             await  ref.read(authProvider.notifier).logout();
-             context.pushReplacement('/map');
-              
+            onPressed: () async {
+              await ref.read(authProvider.notifier).logout();
+              context.pushReplacement('/map');
             },
             icon: const Icon(Icons.logout),
           ),
-         
         ],
       ),
 
@@ -61,6 +59,20 @@ class DashboardScreen extends ConsumerWidget {
             return LocationCard(
               location: location,
               onTap: () => context.push('/candy-location/${location.id}'),
+              onLongPress: () {
+                showConfirmAction(
+                  buttonTitle: 'Eliminar',
+                  typeAlert: .destructive,
+                  context,
+                  confirmAction: () async{
+                    await candyLocationsNotifier.deleteCandyLocation(location.id);
+
+                  },
+                  title: 'Eliminar ubicación',
+                  content:
+                      'La ubicación ${location.title} sera eliminada. Esta seguro?',
+                );
+              },
             );
           },
         ),

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:candy_tracker/features/store/domain/domain.dart';
 import 'package:candy_tracker/features/store/presentation/providers/location_repository_provider.dart';
 
-final candysLocationsProvider =
+final candiesLocationsProvider =
     StateNotifierProvider.autoDispose<UserLocationNotifier, UserLocationsState>(
       (ref) {
         return UserLocationNotifier(
@@ -59,8 +59,22 @@ class UserLocationNotifier extends StateNotifier<UserLocationsState> {
       return true;
     } catch (e) {
       setMessage(e.toString());
-      print(e);
       return false;
+    }
+  }
+
+  Future<void> deleteCandyLocation(int id) async {
+    try {
+      final response = await repository.deleteCandyLocationById(id);
+
+      state = state.copyWith(
+        locations: state.locations
+            .where((element) => element.id != id)
+            .toList(),
+      );
+      setMessage(response);
+    } catch (e) {
+      setMessage(e.toString());
     }
   }
 

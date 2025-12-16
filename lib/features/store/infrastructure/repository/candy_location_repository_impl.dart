@@ -19,4 +19,9 @@ class CandyLocationRepositoryImpl implements CandyLocationRepository {
   Future<CandyLocation> createUpdateCandyLocation(Map<String, dynamic> likeCandyLocation) {
    return datasource.createUpdateCandyLocation(likeCandyLocation);
   }
+  
+  @override
+  Future<String> deleteCandyLocationById(int id) {
+   return datasource.deleteCandyLocationById(id);
+  }
 }

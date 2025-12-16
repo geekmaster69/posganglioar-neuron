@@ -1,4 +1,4 @@
-import '../domain.dart';
+import 'package:candy_tracker/features/store/domain/domain.dart';
 
 abstract class CandyLocationRepository {
   Future<List<CandyLocation>> locationsForUser();
@@ -8,4 +8,6 @@ abstract class CandyLocationRepository {
   Future<CandyLocation> createUpdateCandyLocation(
     Map<String, dynamic> likeCandyLocation,
   );
+
+  Future<String> deleteCandyLocationById(int id);
 }

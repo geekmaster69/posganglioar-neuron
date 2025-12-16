@@ -132,7 +132,7 @@ class CandyLocationFormNotifier extends Notifier<CandyLocationFormState> {
     };
 
     final result = await ref
-        .read(candysLocationsProvider.notifier)
+        .read(candiesLocationsProvider.notifier)
         .createUpdateCandyLocation(data);
     state = state.copyWith(isSending: true);
 

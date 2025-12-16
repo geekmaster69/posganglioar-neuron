@@ -13,7 +13,7 @@ Future<void> showCandyLocationDetails(
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Color(0xFF2C272E),
+    backgroundColor: const Color(0xFF2C272E),
     useSafeArea: true,
     showDragHandle: true,
     builder: (context) {
@@ -55,7 +55,7 @@ Future<void> showCandyLocationDetails(
             CandyRemaining(remaining: locationCandy.quantity),
 
             _VisitedButton(locationCandy.id, onTap: toggleVisited),
-            const Spacer(),
+
             const SizedBox(height: 20),
           ],
         ),

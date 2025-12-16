@@ -8,4 +8,6 @@ abstract class CandyLocationDatasource {
   Future<CandyLocation> createUpdateCandyLocation(
     Map<String, dynamic> likeCandyLocation,
   );
+
+  Future<String> deleteCandyLocationById(int id);
 }
