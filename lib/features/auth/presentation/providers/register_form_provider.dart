@@ -11,7 +11,7 @@ final registerFormProvider =
 
 class RegisterFormNotifier extends Notifier<RegisterFormState> {
   @override
-  build() {
+  RegisterFormState build() {
     return RegisterFormState();
   }
 
@@ -23,8 +23,7 @@ class RegisterFormNotifier extends Notifier<RegisterFormState> {
     );
   }
 
-  void onNameChange(String value){
-
+  void onNameChange(String value) {
     final name = StringInput.dirty(value);
     state = state.copyWith(name: name, isValid: Formz.validate([name]));
   }
@@ -44,10 +43,6 @@ class RegisterFormNotifier extends Notifier<RegisterFormState> {
 
     state = state.copyWith(isPosting: true);
 
-    // await loginUserCallback({
-    //   'email': state.email.value,
-    //   'password': state.password.value,
-    // });
     await ref.watch(authProvider.notifier).registerUser({
       'email': state.email.value,
       'password': state.password.value,

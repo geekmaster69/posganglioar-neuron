@@ -6,7 +6,7 @@ const appBarColor = Colors.deepPurple;
 const scaffoldBackgroundColor = Color(0xFF2C272E);
 
 class AppTheme {
-  ThemeData getTheme() => ThemeData(
+  ThemeData get getTheme => ThemeData(
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     brightness: Brightness.dark,
     splashColor: const Color(0xFFE59934),

@@ -13,6 +13,7 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
     final userLocationState = ref.watch(candysLocationsProvider);
     final size = MediaQuery.of(context).size.height;
 

@@ -1,8 +1,8 @@
 import 'package:candy_tracker/features/auth/presentation/providers/providers.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
-import '../../../../config/config.dart';
-import '../../domain/domain.dart';
+import 'package:candy_tracker/config/config.dart';
+import 'package:candy_tracker/features/auth/domain/domain.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);

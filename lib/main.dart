@@ -21,7 +21,7 @@ class MainApp extends ConsumerWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: router,
-      theme: AppTheme().getTheme(),
+      theme: AppTheme().getTheme,
       builder: (context, child) =>
           SafeArea(top: false, child: child ?? const SizedBox.shrink()),
     );
